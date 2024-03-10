@@ -1,8 +1,9 @@
 import unittest
+from devinette import Devinette
 
 class TestDevinette(unittest.TestCase):
     def test_mot_valide(self):
-        m = TestDevinette("")
+        m = Devinette("")
         self.assertFalse(m.mot_valide(""))  # Test avec un mot vide
         self.assertTrue(m.mot_valide("Bonjour"))  # Test avec un mot valide
         self.assertFalse(m.mot_valide("123"))  # Test avec des chiffres
