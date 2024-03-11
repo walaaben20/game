@@ -35,7 +35,7 @@ class JeuDevinette(tk.Tk):
         elif choix == 2:
             print("Le joueur 2 a choisi d'avoir 3 indices.")
             # Ajoutez ici la logique pour donner des indices au joueur 2 et lui permettre de deviner
-
+    
 if __name__ == '__main__':
     app = JeuDevinette()
     app.mainloop()
