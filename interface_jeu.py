@@ -12,13 +12,13 @@ class DevinetteApp(App):
 
         layout = BoxLayout(orientation='vertical')
 
-        self.label_titre = Label(text="Bienvenue dans le jeu Devinette de Wala  !", font_size=24)
+        self.label_titre = Label(text="Bienvenue dans le jeu Devinette !", font_size=24)
         layout.add_widget(self.label_titre)
 
         self.label_instructions = Label(text="Joueur 1 : donnez le mot à deviner", font_size=16)
         layout.add_widget(self.label_instructions)
 
-        self.input_mot = TextInput(hint_text="Entrez le mot")
+        self.input_mot = TextInput(hint_text="Entrez le mot", password=True)
         layout.add_widget(self.input_mot)
 
         self.bouton_valider_mot = Button(text="Valider", on_press=self.valider_mot)
@@ -62,15 +62,22 @@ class DevinetteApp(App):
         else:
             self.label_instructions.text = "Joueur 2 : Vous pouvez commencer à deviner"
 
-    def deviner(self, mot):
-        if mot != self.mot_a_deviner:
+        self.input_mot_joueur = TextInput(hint_text="Entrez votre devinette")
+        self.layout.add_widget(self.input_mot_joueur)
+
+        self.bouton_deviner = Button(text="Deviner", on_press=self.deviner_mot)
+        self.layout.add_widget(self.bouton_deviner)
+
+    def deviner_mot(self, instance):
+        mot_joueur = self.input_mot_joueur.text
+        if mot_joueur == self.mot_a_deviner:
+            self.label_resultat.text = "Bravo! Vous avez deviné le mot correctement."
+        else:
             self.tentatives -= 1
             if self.tentatives > 0:
-                self.label_resultat.text = f"Incorrect! Il vous reste {self.tentatives} tentatives"
+                self.label_resultat.text = f"Incorrect! Il vous reste {self.tentatives} tentatives."
             else:
-                self.label_resultat.text = f"Désolé, vous avez perdu. Le mot était {self.mot_a_deviner}"
-        else:
-            self.label_resultat.text = "Félicitations, vous avez deviné le mot correctement !"
+                self.label_resultat.text = f"Désolé, vous avez épuisé toutes les tentatives. Le mot était {self.mot_a_deviner}."
 
 if __name__ == "__main__":
     DevinetteApp().run()
