@@ -1,73 +1,76 @@
 from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.popup import Popup
-import random
 
-class JeuDevinette(App):
+class DevinetteApp(App):
     def build(self):
-        self.mot_a_deviner = self.generer_mot()
-        self.tentatives_restantes = 3
+        self.choix = None
+        self.mot_a_deviner = ""
+        self.tentatives = 0
 
         layout = BoxLayout(orientation='vertical')
 
-        self.label_titre = Label(text="Bienvenue dans le jeu Devinette !", font_size=24)
+        self.label_titre = Label(text="Bienvenue dans le jeu Devinette de Wala  !", font_size=24)
         layout.add_widget(self.label_titre)
 
-        self.label_instructions = Label(text="Trouvez le mot mystère en devinant les lettres.", font_size=16)
+        self.label_instructions = Label(text="Joueur 1 : donnez le mot à deviner", font_size=16)
         layout.add_widget(self.label_instructions)
 
-        self.label_mot = Label(text="_ " * len(self.mot_a_deviner), font_size=20)
-        layout.add_widget(self.label_mot)
+        self.input_mot = TextInput(hint_text="Entrez le mot")
+        layout.add_widget(self.input_mot)
 
-        self.label_tentatives = Label(text=f"Tentatives restantes : {self.tentatives_restantes}", font_size=16)
-        layout.add_widget(self.label_tentatives)
+        self.bouton_valider_mot = Button(text="Valider", on_press=self.valider_mot)
+        layout.add_widget(self.bouton_valider_mot)
 
-        self.entree_lettre = TextInput(hint_text="Entrez une lettre", font_size=16)
-        layout.add_widget(self.entree_lettre)
+        self.label_choix = Label(text="Joueur 2 : Choisissez 1 pour avoir des indices ou 2 pour commencer sans indice", font_size=16)
+        layout.add_widget(self.label_choix)
 
-        self.bouton_valider = Button(text="Valider", font_size=16)
-        self.bouton_valider.bind(on_press=self.valider_lettre)
-        layout.add_widget(self.bouton_valider)
+        self.input_choix = TextInput(hint_text="Entrez votre choix")
+        layout.add_widget(self.input_choix)
+
+        self.bouton_valider_choix = Button(text="Valider", on_press=self.valider_choix)
+        layout.add_widget(self.bouton_valider_choix)
+
+        self.label_resultat = Label(font_size=16)
+        layout.add_widget(self.label_resultat)
 
         return layout
 
-    def generer_mot(self):
-        mots = ["python", "programmation", "ordinateur", "jeu", "intelligence"]
-        return random.choice(mots)
+    def valider_mot(self, instance):
+        self.mot_a_deviner = self.input_mot.text
+        self.label_instructions.text = "Joueur 2 : devinez le mot"
+        self.input_mot.disabled = True
+        self.bouton_valider_mot.disabled = True
 
-    def valider_lettre(self, instance):
-        lettre = self.entree_lettre.text.lower()
-        if len(lettre) != 1 or not lettre.isalpha():
-            self.afficher_popup("Erreur", "Veuillez entrer une seule lettre valide.")
-            return
-
-        if lettre in self.mot_a_deviner:
-            self.afficher_popup("Bravo", f"La lettre {lettre} est dans le mot mystère !")
-            self.mettre_a_jour_mot(lettre)
+    def valider_choix(self, instance):
+        choix = self.input_choix.text
+        if choix == "1" or choix == "2":
+            self.choix = int(choix)
+            self.input_choix.disabled = True
+            self.bouton_valider_choix.disabled = True
+            self.label_choix.text = ""
+            self.jouer()
         else:
-            self.afficher_popup("Dommage", f"La lettre {lettre} n'est pas dans le mot mystère.")
-            self.tentatives_restantes -= 1
-            self.label_tentatives.text = f"Tentatives restantes : {self.tentatives_restantes}"
-            if self.tentatives_restantes == 0:
-                self.afficher_popup("Perdu", f"Le mot mystère était {self.mot_a_deviner}. Vous avez perdu !")
+            self.label_resultat.text = "Veuillez entrer 1 ou 2"
 
-        self.entree_lettre.text = ""
+    def jouer(self):
+        if self.choix == 1:
+            self.label_instructions.text = "Joueur 2 : Vous avez 3 tentatives"
+            self.tentatives = 3
+        else:
+            self.label_instructions.text = "Joueur 2 : Vous pouvez commencer à deviner"
 
-    def mettre_a_jour_mot(self, lettre):
-        nouveau_mot = ""
-        for caractere in self.mot_a_deviner:
-            if caractere == lettre:
-                nouveau_mot += lettre + " "
+    def deviner(self, mot):
+        if mot != self.mot_a_deviner:
+            self.tentatives -= 1
+            if self.tentatives > 0:
+                self.label_resultat.text = f"Incorrect! Il vous reste {self.tentatives} tentatives"
             else:
-                nouveau_mot += "_ "
-        self.label_mot.text = nouveau_mot
-
-    def afficher_popup(self, titre, message):
-        popup = Popup(title=titre, content=Label(text=message, font_size=16), size_hint=(None, None), size=(400, 200))
-        popup.open()
+                self.label_resultat.text = f"Désolé, vous avez perdu. Le mot était {self.mot_a_deviner}"
+        else:
+            self.label_resultat.text = "Félicitations, vous avez deviné le mot correctement !"
 
 if __name__ == "__main__":
-    JeuDevinette().run()
+    DevinetteApp().run()
