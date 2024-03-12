@@ -33,6 +33,9 @@ class DevinetteApp(App):
         self.bouton_valider_choix = Button(text="Valider", on_press=self.valider_choix)
         layout.add_widget(self.bouton_valider_choix)
 
+        self.label_message_joueur = Label(font_size=16)
+        layout.add_widget(self.label_message_joueur)
+
         self.label_resultat = Label(font_size=16)
         layout.add_widget(self.label_resultat)
 
@@ -53,7 +56,7 @@ class DevinetteApp(App):
             self.label_choix.text = ""
             self.jouer()
         else:
-            self.label_resultat.text = "Veuillez entrer 1 ou 2"
+            self.label_message_joueur.text = "Veuillez entrer 1 ou 2"
 
     def jouer(self):
         if self.choix == 1:
@@ -63,10 +66,10 @@ class DevinetteApp(App):
             self.label_instructions.text = "Joueur 2 : Vous pouvez commencer à deviner"
 
         self.input_mot_joueur = TextInput(hint_text="Entrez votre devinette")
-        self.layout.add_widget(self.input_mot_joueur)
+        self.root.add_widget(self.input_mot_joueur)
 
         self.bouton_deviner = Button(text="Deviner", on_press=self.deviner_mot)
-        self.layout.add_widget(self.bouton_deviner)
+        self.root.add_widget(self.bouton_deviner)
 
     def deviner_mot(self, instance):
         mot_joueur = self.input_mot_joueur.text
