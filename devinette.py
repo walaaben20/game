@@ -13,10 +13,10 @@ class DevinetteApp(App):
 
         layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
 
-        self.label_titre = Label(text="Bienvenue dans le jeu Devinette de Wala !", font_size=30, color=(1, 0, 0, 1))
+        self.label_titre = Label(text="Bienvenue dans le jeu Devinette de Wala !", font_size=30, color=(0,0,1,1))
         layout.add_widget(self.label_titre)
 
-        self.label_instructions = Label(text="Joueur 1 : donnez le mot à deviner", font_size=20, color=(0, 0, 1, 1))
+        self.label_instructions = Label(text="Joueur 1 : donnez le mot à deviner", font_size=30, color=(0, 0, 1, 1))
         layout.add_widget(self.label_instructions)
 
         self.input_mot = TextInput(hint_text="Entrez le mot", password=True, multiline=False, size_hint_y=None, height=40)
@@ -25,19 +25,19 @@ class DevinetteApp(App):
         self.bouton_valider_mot = Button(text="Valider", on_press=self.valider_mot, background_color=(0, 1, 0, 1), size_hint_y=None, height=60)
         layout.add_widget(self.bouton_valider_mot)
 
-        self.label_choix = Label(text="Joueur 2 : Choisissez 1 si vous voulez avoir des tentatives ou 2 pour deviner sans avoir des tentatives ", font_size=16)
+        self.label_choix = Label(text="Joueur 2 : Choisissez 1 si vous voulez avoir des tentatives ou 2 pour deviner sans avoir des tentatives ",font_size=20, color=(0, 0, 1, 1))
         layout.add_widget(self.label_choix)
 
-        self.input_choix = TextInput(hint_text="Entrez votre choix", multiline=False)
+        self.input_choix = TextInput(hint_text="Entrez votre choix", multiline=False,size_hint_y=None, height=40)
         layout.add_widget(self.input_choix)
 
-        self.bouton_valider_choix = Button(text="Valider", on_press=self.valider_choix)
+        self.bouton_valider_choix = Button(text="Valider", on_press=self.valider_choix,background_color=(0, 1, 0, 1), size_hint_y=None, height=60)
         layout.add_widget(self.bouton_valider_choix)
 
-        self.label_message_joueur = Label(font_size=16)
+        self.label_message_joueur = Label(font_size=20)
         layout.add_widget(self.label_message_joueur)
 
-        self.label_resultat = Label(font_size=16)
+        self.label_resultat = Label(font_size=20)
         layout.add_widget(self.label_resultat)
 
         self.input_mot.bind(on_text_validate=self.valider_mot_entree)  # Lier la touche "Entrée" à la fonction valider_mot_entree
