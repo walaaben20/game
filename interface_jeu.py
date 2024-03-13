@@ -18,7 +18,7 @@ class DevinetteApp(App):
         self.label_instructions = Label(text="Joueur 1 : donnez le mot à deviner", font_size=16)
         layout.add_widget(self.label_instructions)
 
-        self.input_mot = TextInput(hint_text="Entrez le mot", password=True)
+        self.input_mot = TextInput(hint_text="Entrez le mot", password=True, multiline=False)
         layout.add_widget(self.input_mot)
 
         self.bouton_valider_mot = Button(text="Valider", on_press=self.valider_mot)
@@ -27,7 +27,7 @@ class DevinetteApp(App):
         self.label_choix = Label(text="Joueur 2 : Choisissez 1 pour avoir des indices ou 2 pour commencer sans indice", font_size=16)
         layout.add_widget(self.label_choix)
 
-        self.input_choix = TextInput(hint_text="Entrez votre choix")
+        self.input_choix = TextInput(hint_text="Entrez votre choix", multiline=False)
         layout.add_widget(self.input_choix)
 
         self.bouton_valider_choix = Button(text="Valider", on_press=self.valider_choix)
@@ -39,13 +39,20 @@ class DevinetteApp(App):
         self.label_resultat = Label(font_size=16)
         layout.add_widget(self.label_resultat)
 
+        self.input_mot.bind(on_text_validate=self.valider_mot_entree)  # Lier la touche "Entrée" à la fonction valider_mot_entree
+        self.input_choix.bind(on_text_validate=self.valider_choix_entree)  # Lier la touche "Entrée" à la fonction valider_choix_entree
+
         return layout
 
     def valider_mot(self, instance):
         self.mot_a_deviner = self.input_mot.text
+        self.input_mot.text = "*****"  # Remplacer le texte par des étoiles pour le cacher
         self.label_instructions.text = "Joueur 2 : devinez le mot"
         self.input_mot.disabled = True
         self.bouton_valider_mot.disabled = True
+
+    def valider_mot_entree(self, instance):
+        self.valider_mot(instance)
 
     def valider_choix(self, instance):
         choix = self.input_choix.text
@@ -58,6 +65,9 @@ class DevinetteApp(App):
         else:
             self.label_message_joueur.text = "Veuillez entrer 1 ou 2"
 
+    def valider_choix_entree(self, instance):
+        self.valider_choix(instance)
+
     def jouer(self):
         if self.choix == 1:
             self.label_instructions.text = "Joueur 2 : Vous avez 3 tentatives"
@@ -65,7 +75,7 @@ class DevinetteApp(App):
         else:
             self.label_instructions.text = "Joueur 2 : Vous pouvez commencer à deviner"
 
-        self.input_mot_joueur = TextInput(hint_text="Entrez votre devinette")
+        self.input_mot_joueur = TextInput(hint_text="Entrez votre devinette")  # Utilisation du texte sauvegardé
         self.root.add_widget(self.input_mot_joueur)
 
         self.bouton_deviner = Button(text="Deviner", on_press=self.deviner_mot)
