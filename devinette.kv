@@ -1,0 +1,47 @@
+<DevinetteApp>:
+    label_titre: titre
+    label_instructions: instructions
+    input_mot: mot
+    bouton_valider_mot: valider_mot
+
+    Label:
+        id: titre
+        text: "Bienvenue dans le jeu Devinette !"
+        font_size: 30
+        font_name: "Arial"
+        color: 1, 0, 0, 1  # Rouge
+        size_hint_y: None
+        height: 100
+        padding: (20, 10)
+
+    Label:
+        id: instructions
+        text: "Joueur 1 : donnez le mot à deviner"
+        font_size: 24
+        font_name: "Arial"
+        color: 0, 0, 1, 1  # Bleu
+        size_hint_y: None
+        height: 50
+        padding: (20, 10)
+
+    TextInput:
+        id: mot
+        hint_text: "Entrez le mot"
+        password: True
+        multiline: False
+        font_size: 18
+        font_name: "Arial"
+        background_color: 1, 1, 1, 0.5  # Fond semi-transparent
+        size_hint_y: None
+        height: 40
+        padding: (10, 5)
+
+    Button:
+        id: valider_mot
+        text: "Valider"
+        font_size: 20
+        font_name: "Arial"
+        background_color: 0, 1, 0, 1  # Vert
+        size_hint_y: None
+        height: 60
+        padding: (10, 5)
