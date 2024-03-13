@@ -24,7 +24,7 @@ class DevinetteApp(App):
         self.bouton_valider_mot = Button(text="Valider", on_press=self.valider_mot)
         layout.add_widget(self.bouton_valider_mot)
 
-        self.label_choix = Label(text="Joueur 2 : Choisissez 1 pour avoir des indices ou 2 pour commencer sans indice", font_size=16)
+        self.label_choix = Label(text="Joueur 2 : Choisissez 1 si vous voulez avoir des tentatives ou 2 pour deviner sans avoir des tentatives ", font_size=16)
         layout.add_widget(self.label_choix)
 
         self.input_choix = TextInput(hint_text="Entrez votre choix", multiline=False)
@@ -90,7 +90,7 @@ class DevinetteApp(App):
             if self.tentatives > 0:
                 self.label_resultat.text = f"Incorrect! Il vous reste {self.tentatives} tentatives."
             else:
-                self.label_resultat.text = f"Désolé, vous avez épuisé toutes les tentatives. Le mot était {self.mot_a_deviner}."
+                self.label_resultat.text = f"Désolé, vous avez n'avez pas deviné le mot . Le mot était {self.mot_a_deviner}."
 
 if __name__ == "__main__":
     DevinetteApp().run()
