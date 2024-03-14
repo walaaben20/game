@@ -55,7 +55,6 @@ class DevinetteApp(App):
     def valider_mot(self, instance):
         self.mot_a_deviner = self.input_mot.text
         self.input_mot.text = "*****"
-        self.label_instructions.text = "Joueur 2 : devinez le mot"
         self.input_mot.disabled = True
         self.bouton_valider_mot.disabled = True
 
